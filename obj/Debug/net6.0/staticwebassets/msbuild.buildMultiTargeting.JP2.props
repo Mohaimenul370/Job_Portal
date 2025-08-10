@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\JP2.props" />
+</Project>

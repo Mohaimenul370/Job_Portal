@@ -1,0 +1,75 @@
+﻿@model JP2.Models.Application
+
+@{
+    ViewData["Title"] = "Create Application";
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Create Application</h1>
+            <p class="text-gray-600 mt-2">Submit a new job application</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-2xl font-bold text-gray-800">Application Details</h2>
+            </div>
+            
+            <form asp-action="Create" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label asp-for="ApplicationDate" class="form-label">Application Date</label>
+                        <input asp-for="ApplicationDate" class="form-input" type="date" />
+                        <span asp-validation-for="ApplicationDate" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="JobTitle" class="form-label">Job Title</label>
+                        <input asp-for="JobTitle" class="form-input" placeholder="Enter job title" />
+                        <span asp-validation-for="JobTitle" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="JobId" class="form-label">Select Job</label>
+                        <select asp-for="JobId" class="form-input" asp-items="ViewBag.JobId">
+                            <option value="">-- Select a Job --</option>
+                        </select>
+                        <span asp-validation-for="JobId" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="UserId" class="form-label">Select User</label>
+                        <select asp-for="UserId" class="form-input" asp-items="ViewBag.UserId">
+                            <option value="">-- Select a User --</option>
+                        </select>
+                        <span asp-validation-for="UserId" class="text-red-600 text-sm"></span>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4 pt-6">
+                    <button type="submit" class="btn-primary">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Create Application
+                    </button>
+                    <a asp-action="Index" class="btn-secondary">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

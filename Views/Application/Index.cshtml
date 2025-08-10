@@ -1,0 +1,76 @@
+﻿@model IEnumerable<JP2.Models.Application>
+
+@{
+    ViewData["Title"] = "Applications";
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Applications</h1>
+                <p class="text-gray-600 mt-2">Manage job applications</p>
+            </div>
+            @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Jobseeker"))
+            {
+                <a asp-action="Create" class="btn-primary">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Create New Application
+                </a>
+            }
+        </div>
+
+        <!-- Applications Table -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-2xl font-bold text-gray-800">All Applications</h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.ApplicationDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
+                            <th>@Html.DisplayNameFor(model => model.User)</th>
+                            <th>@Html.DisplayNameFor(model => model.Job)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-row">
+                                <td class="table-cell">
+                                    <span class="text-sm text-gray-600">@Html.DisplayFor(modelItem => item.ApplicationDate)</span>
+                                </td>
+                                <td class="table-cell font-medium">@Html.DisplayFor(modelItem => item.JobTitle)</td>
+                                <td class="table-cell">@Html.DisplayFor(modelItem => item.User.UserEmail)</td>
+                                <td class="table-cell">@Html.DisplayFor(modelItem => item.Job.JobDescription)</td>
+                                <td class="table-cell">
+                                    <div class="flex space-x-2">
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Jobseeker"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-secondary text-sm">Edit</a>
+                                        }
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Employer"))
+                                        {
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-primary text-sm">Details</a>
+                                        }
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Employer"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-danger text-sm">Delete</a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

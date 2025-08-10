@@ -1,0 +1,106 @@
+﻿@model IEnumerable<JP2.Models.Job>
+
+@{
+    ViewData["Title"] = "Jobs";
+    Pager p=ViewBag.pager;
+    int i = (p.CurrentPage-1)*p.PageSize +1;
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Jobs</h1>
+                <p class="text-gray-600 mt-2">Browse and manage job listings</p>
+            </div>
+            @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Employer"))
+            {
+                <a asp-action="Create" class="btn-primary">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Create New Job
+                </a>
+            }
+        </div>
+
+        <!-- Pagination -->
+        <div class="mb-6">
+            <nav class="flex items-center justify-center space-x-2">
+                <a href="/Job/Index/?pg=1" class="btn-secondary text-sm">First Page</a>
+                <a href="/Job/Index/?pg=@(p.CurrentPage-1)" class="btn-secondary text-sm">Previous Page</a>
+                <span class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md">
+                    Page @p.CurrentPage of @p.TotalPages
+                </span>
+                <a href="/Job/Index/?pg=@(p.CurrentPage+1)" class="btn-secondary text-sm">Next Page</a>
+                <a href="/Job/Index/?pg=@(p.TotalPages)" class="btn-secondary text-sm">Last Page</a>
+            </nav>
+        </div>
+
+        <!-- Jobs Table -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-2xl font-bold text-gray-800">All Jobs</h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
+                            <th>@Html.DisplayNameFor(model => model.JobDescription)</th>
+                            <th>@Html.DisplayNameFor(model => model.Salary)</th>
+                            <th>@Html.DisplayNameFor(model => model.JobLocation)</th>
+                            <th>@Html.DisplayNameFor(model => model.PostDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.Employer)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-row">
+                                <td class="table-cell font-medium">@Html.DisplayFor(modelItem => item.JobTitle)</td>
+                                <td class="table-cell">@Html.DisplayFor(modelItem => item.JobDescription)</td>
+                                <td class="table-cell font-semibold text-green-600">@Html.DisplayFor(modelItem => item.Salary)</td>
+                                <td class="table-cell">@Html.DisplayFor(modelItem => item.JobLocation)</td>
+                                <td class="table-cell">
+                                    <span class="text-sm text-gray-600">@Html.DisplayFor(modelItem => item.PostDate)</span>
+                                </td>
+                                <td class="table-cell">@Html.DisplayFor(modelItem => item.Employer.CompanyDescription)</td>
+                                <td class="table-cell">
+                                    <div class="flex space-x-2">
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Employer"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-secondary text-sm">Edit</a>
+                                        }
+                                        @if (Context.User.Identity.IsAuthenticated)
+                                        {
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-primary text-sm">Details</a>
+                                        }
+                                        @if (Context.User.IsInRole("Admin") || Context.User.IsInRole("Employer"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-danger text-sm">Delete</a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function (){
+            $('#jobtable').DataTable();
+        })
+    </script>
+}

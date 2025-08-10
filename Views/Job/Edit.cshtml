@@ -1,0 +1,86 @@
+﻿@model JP2.Models.Job
+
+@{
+    ViewData["Title"] = "Edit Job";
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Edit Job</h1>
+            <p class="text-gray-600 mt-2">Update job information</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-2xl font-bold text-gray-800">Job Details</h2>
+            </div>
+            
+            <form asp-action="Edit" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label asp-for="JobTitle" class="form-label">Job Title</label>
+                        <input asp-for="JobTitle" class="form-input" placeholder="Enter job title" />
+                        <span asp-validation-for="JobTitle" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="Salary" class="form-label">Salary</label>
+                        <input asp-for="Salary" class="form-input" placeholder="Enter salary" />
+                        <span asp-validation-for="Salary" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label asp-for="JobDescription" class="form-label">Job Description</label>
+                        <textarea asp-for="JobDescription" class="form-input" rows="4" placeholder="Enter job description"></textarea>
+                        <span asp-validation-for="JobDescription" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="JobLocation" class="form-label">Job Location</label>
+                        <input asp-for="JobLocation" class="form-input" placeholder="Enter job location" />
+                        <span asp-validation-for="JobLocation" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="PostDate" class="form-label">Post Date</label>
+                        <input asp-for="PostDate" class="form-input" type="date" />
+                        <span asp-validation-for="PostDate" class="text-red-600 text-sm"></span>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label asp-for="EmployerId" class="form-label">Select Employer</label>
+                        <select asp-for="EmployerId" class="form-input" asp-items="ViewBag.EmployerId">
+                            <option value="">-- Select an Employer --</option>
+                        </select>
+                        <span asp-validation-for="EmployerId" class="text-red-600 text-sm"></span>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4 pt-6">
+                    <button type="submit" class="btn-primary">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Save Changes
+                    </button>
+                    <a asp-action="Index" class="btn-secondary">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
